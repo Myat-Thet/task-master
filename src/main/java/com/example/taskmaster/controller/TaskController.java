@@ -17,7 +17,7 @@ public class TaskController {
 
     private final TaskService taskService;
 
-    record TaskRequest(String taskName, String description) {}
+    record TaskRequest(String taskName, String description, LocalDate dueDate, String priority) {}
 
     record TaskResponse(Integer id, String taskName,
                          String description,
