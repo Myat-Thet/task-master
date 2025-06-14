@@ -17,11 +17,12 @@ public class TaskController {
 
     private final TaskService taskService;
 
-    record TaskRequest(String taskName, String description, LocalDate dueDate, String priority) {}
+    record TaskRequest(String taskName, String description,  LocalDate dueDate,
+                       String priority) {}
 
     record TaskResponse(Integer id, String taskName,
                          String description,
-                         LocalDate DueDate,
+                         LocalDate dueDate,
                          String priority,
                          boolean isCompleted) {}
 
@@ -85,6 +86,8 @@ public class TaskController {
         var task=new Task();
         task.setTaskName(taskRequest.taskName());
         task.setDescription(taskRequest.description());
+        task.setDueDate(taskRequest.dueDate());
+        task.setPriority(taskRequest.priority());
         task.setCompleted(false);
         return task;
     }
