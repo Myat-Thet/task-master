@@ -4,15 +4,18 @@ import com.example.taskmaster.dao.TaskDao;
 import com.example.taskmaster.entity.Task;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class TaskService {
 
-    private final TaskDao  taskDao;
+    private final TaskDao taskDao;
 
     public void deleteById(Integer id) {
         taskDao.deleteById(id);
@@ -26,13 +29,22 @@ public class TaskService {
         }
         return null;
     }
+
     public Task uncompletedTask(Integer id) {
         Task task = taskDao.findById(id).orElse(null);
-        if (Objects.nonNull(task) )  {
+        if (Objects.nonNull(task)) {
             task.setCompleted(false);
             return taskDao.save(task);
         }
         return null;
+    }
+    @Transactional
+    public List<Task> getAllCompletedTasks(Integer id) {
+        return taskDao.findAllCompletedTasks(id);
+    }
+
+    public List<Task> getAllUncompletedTasks(Integer id) {
+        return taskDao.findAllUncompletedTasks(id);
     }
 
     public List<Task> findAll() {

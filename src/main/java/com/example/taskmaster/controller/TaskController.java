@@ -2,6 +2,7 @@ package com.example.taskmaster.controller;
 
 import com.example.taskmaster.entity.Task;
 import com.example.taskmaster.service.TaskService;
+import jakarta.persistence.Id;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/task")
@@ -17,11 +20,12 @@ public class TaskController {
 
     private final TaskService taskService;
 
-    record TaskRequest(String taskName, String description, LocalDate dueDate, String priority) {}
+    record TaskRequest(String taskName, String description,  LocalDate dueDate,
+                       String priority) {}
 
     record TaskResponse(Integer id, String taskName,
                          String description,
-                         LocalDate DueDate,
+                         LocalDate dueDate,
                          String priority,
                          boolean isCompleted) {}
 
@@ -80,13 +84,25 @@ public class TaskController {
                 .map(this::toTask)
                 .toList();
     }
-
     private static Task toTaskEntity(TaskRequest taskRequest) {
         var task=new Task();
         task.setTaskName(taskRequest.taskName());
         task.setDescription(taskRequest.description());
+        task.setDueDate(taskRequest.dueDate());
+        task.setPriority(taskRequest.priority());
         task.setCompleted(false);
         return task;
+    }
+    @GetMapping("/completed")
+    public ResponseEntity<List<Task>> getCompletedTasks(Integer id) {
+        List<Task> completedTasks = taskService.getAllCompletedTasks(id);
+        return ResponseEntity.ok(completedTasks);
+    }
+
+    @GetMapping("/uncompleted")
+    public ResponseEntity<List<Task>> getUncompletedTasks(Integer id) {
+        List<Task> uncompletedTasks = taskService.getAllUncompletedTasks(id);
+        return ResponseEntity.ok(uncompletedTasks);
     }
 
 }
