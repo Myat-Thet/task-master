@@ -94,14 +94,14 @@ public class TaskController {
         return task;
     }
     @GetMapping("/completed")
-    public ResponseEntity<List<Task>> getCompletedTasks(Integer id) {
-        List<Task> completedTasks = taskService.getAllCompletedTasks(id);
+    public ResponseEntity<List<Task>> getCompletedTasks() {
+        List<Task> completedTasks = taskService.getAllCompletedTasks();
         return ResponseEntity.ok(completedTasks);
     }
 
     @GetMapping("/uncompleted")
-    public ResponseEntity<List<Task>> getUncompletedTasks(Integer id) {
-        List<Task> uncompletedTasks = taskService.getAllUncompletedTasks(id);
+    public ResponseEntity<List<Task>> getUncompletedTasks() {
+        List<Task> uncompletedTasks = taskService.getAllUncompletedTasks();
         return ResponseEntity.ok(uncompletedTasks);
     }
 

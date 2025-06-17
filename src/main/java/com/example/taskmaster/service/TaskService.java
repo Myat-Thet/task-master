@@ -39,12 +39,12 @@ public class TaskService {
         return null;
     }
     @Transactional
-    public List<Task> getAllCompletedTasks(Integer id) {
-        return taskDao.findAllCompletedTasks(id);
+    public List<Task> getAllCompletedTasks() {
+        return taskDao.findAllCompletedTasks();
     }
 
-    public List<Task> getAllUncompletedTasks(Integer id) {
-        return taskDao.findAllUncompletedTasks(id);
+    public List<Task> getAllUncompletedTasks() {
+        return taskDao.findAllUncompletedTasks();
     }
 
     public List<Task> findAll() {
